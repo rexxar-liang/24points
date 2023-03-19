@@ -10,6 +10,7 @@ from selected_number import SelectedNumber
 from button import Button
 from grading import Grading
 from bracket import Bracket
+from timer import Timer
 
 
 class Points:
@@ -52,10 +53,11 @@ class Points:
         self.bracket5 = Bracket(self, 5,)
         self.bracket6 = Bracket(self, 6)
 
-        self.check_button = Button(self, (497, 630), "Check")
-        self.next_button = Button(self, (680, 630), "Next")
+        self.check_button = Button(self, self.settings.check_button_pos, "Check")
+        self.next_button = Button(self, self.settings.next_button_pos, "Next")
 
-        self.grading = Grading(self, (950, 0))
+        self.grading = Grading(self)
+        self.timer = Timer(self)
 
     def _check_event(self):
         for event in pg.event.get():
@@ -64,6 +66,10 @@ class Points:
             elif event.type == pg.MOUSEBUTTONUP:
                 self.check_button.unselect()
                 self.next_button.unselect()
+            elif event.type == self.settings.EVENT_TIMING:
+                is_run_outof_time = self.timer.update()
+                if is_run_outof_time:
+                    self._next_round()
             elif event.type == pg.MOUSEBUTTONDOWN:
                 self.symbol1.update(event.pos)
                 self.symbol2.update(event.pos)
@@ -254,6 +260,13 @@ class Points:
         self.selected_symbol1.set_symbol(None)
         self.selected_symbol2.set_symbol(None)
         self.selected_symbol3.set_symbol(None)
+        self.bracket1.unselect()
+        self.bracket2.unselect()
+        self.bracket3.unselect()
+        self.bracket4.unselect()
+        self.bracket5.unselect()
+        self.bracket6.unselect()
+        self.timer.restart()
 
     def _update_screen(self):
         self.screen.fill(self.bg_color)
@@ -281,6 +294,7 @@ class Points:
         self.check_button.blitme()
         self.next_button.blitme()
         self.grading.blitme()
+        self.timer.blitme()
         pg.display.flip()
 
     def run_game(self):

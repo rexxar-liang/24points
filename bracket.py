@@ -30,7 +30,7 @@ class Bracket:
     def update(self, pos):
         if self._check_selected(pos):
             if self.selected:
-                self._unselect()
+                self.unselect()
             else:
                 self._select()
 
@@ -44,6 +44,6 @@ class Bracket:
         self.selected = True
         self.bracket_color = self.settings.bracket_selected_color
 
-    def _unselect(self):
+    def unselect(self):
         self.selected = False
         self.bracket_color = self.settings.bracket_unselected_color

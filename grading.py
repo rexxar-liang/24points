@@ -5,7 +5,7 @@ from setting import Settings
 
 class Grading:
 
-    def __init__(self, game, pos):
+    def __init__(self, game):
         self.screen = game.screen
         self.screen_rect = game.screen.get_rect()
         self.settings = Settings()
@@ -14,8 +14,9 @@ class Grading:
         self.width = self.settings.score_width
         self.height = self.settings.score_height
         self.font = pg.font.SysFont(None, 45)
+        self.score_pos = self.settings.score_pos
 
-        self.score_rect = pg.Rect(pos[0], pos[1], self.width, self.height)
+        self.score_rect = pg.Rect(self.score_pos[0], self.score_pos[1], self.width, self.height)
 
         self.score = 0
         pg.mixer.init()

@@ -1,3 +1,6 @@
+import pygame
+
+
 class Settings:
 
     def __init__(self):
@@ -15,6 +18,9 @@ class Settings:
         self.score_bg_color = self.bg_color
         self.score_text_color = (224, 64, 0)
 
+        self.timer_bg_color = self.bg_color
+        self.timer_text_color = (224, 64, 0)
+
         self.bracket_selected_color = (0, 0, 0)
         self.bracket_unselected_color = (200, 200, 200)
         self.bracket_bg_color = self.bg_color
@@ -30,6 +36,9 @@ class Settings:
         self.score_width = 200
         self.score_height = 50
 
+        self.timer_width = 100
+        self.timer_height = 50
+
         self.bracket_width = 24
         self.bracket_height = 82
 
@@ -40,3 +49,15 @@ class Settings:
         self.selected_number_pos = [(160, 360), (420, 360), (710, 360), (965, 360)]
         self.selected_symbol_pos = [(330, 460), (620, 460), (900, 460)]
         self.bracket_pos = [(130, 446), (390, 446), (585, 446), (680, 446), (870, 446), (1130, 446)]
+        self.score_pos = (950, 0)
+        self.check_button_pos = (480, 630)
+        self.next_button_pos = (707, 630)
+
+        self.timer_pos = (750, 0)
+        self.timer_counts = 90
+        self.timer_interval = 1000
+        self.timer_text = "Time Left: "
+
+
+        self.EVENT_TIMING = pygame.USEREVENT + 1
+        
