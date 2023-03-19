@@ -1,7 +1,7 @@
-import sys
+
 import pygame as pg
 
-from setting import Settings
+from point.config.setting import Settings
 
 
 class Number:
@@ -20,8 +20,14 @@ class Number:
         self.image = None
 
         self.image = pg.image.load("images/numbers/" + str(number) + ".jpeg")
-        self.bg_rect = pg.Rect(self.pos[index - 1][0], self.pos[index - 1][1], self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-        self.image_rect = pg.Rect(self.pos[index - 1][0] + self.selected_border, self.pos[index - 1][1] + self.selected_border, self.width, self.height)
+        self.bg_rect = pg.Rect(self.pos[index - 1][0],
+                               self.pos[index - 1][1],
+                               self.width + self.selected_border * 2,
+                               self.height + self.selected_border * 2)
+        self.image_rect = pg.Rect(self.pos[index - 1][0] + self.selected_border,
+                                  self.pos[index - 1][1] + self.selected_border,
+                                  self.width,
+                                  self.height)
 
         self.image = pg.transform.scale(self.image, (self.width, self.height))
 
@@ -62,4 +68,3 @@ class Number:
     def unset_number(self):
         self.number = None
         self.image = None
-

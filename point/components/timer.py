@@ -1,6 +1,6 @@
 import pygame as pg
 
-from setting import Settings
+from point.config.setting import Settings
 
 
 class Timer:

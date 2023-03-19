@@ -1,7 +1,7 @@
 
 import pygame as pg
 
-from setting import Settings
+from point.config.setting import Settings
 
 
 class Button:
@@ -20,8 +20,12 @@ class Button:
         self.msg = msg
         self.font = pg.font.SysFont(None, 45)
 
-        self.bg_rect = pg.Rect(pos[0], pos[1], self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-        self.button_rect = pg.Rect(pos[0] + self.selected_border, pos[1] + self.selected_border, self.width, self.height)
+        self.bg_rect = pg.Rect(pos[0], pos[1],
+                               self.width + self.selected_border * 2,
+                               self.height + self.selected_border * 2)
+        self.button_rect = pg.Rect(pos[0] + self.selected_border,
+                                   pos[1] + self.selected_border,
+                                   self.width, self.height)
         self.msg_image = self.font.render(msg, True, self.button_text_color, self.button_color)
         self.msg_image_rect = self.msg_image.get_rect()
         self.msg_image_rect.center = self.button_rect.center
@@ -36,7 +40,6 @@ class Button:
             self._select()
         else:
             self.unselect()
-
 
     def _check_selected(self, pos):
         return self.button_rect.collidepoint(pos)

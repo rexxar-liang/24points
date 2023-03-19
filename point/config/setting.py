@@ -58,6 +58,4 @@ class Settings:
         self.timer_interval = 1000
         self.timer_text = "Time Left: "
 
-
         self.EVENT_TIMING = pygame.USEREVENT + 1
-        

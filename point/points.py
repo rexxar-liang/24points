@@ -1,16 +1,18 @@
 import sys
 import pygame as pg
 import random
+from tkinter import *
+# from tkinter import messagebox
 
-from setting import Settings
-from symbols import Symbol
-from selected_symbol import SelectedSymbol
-from numbers import Number
-from selected_number import SelectedNumber
-from button import Button
-from grading import Grading
-from bracket import Bracket
-from timer import Timer
+from config.setting import Settings
+from components.symbols import Symbol
+from components.selected_symbol import SelectedSymbol
+from components.numbers import Number
+from components.selected_number import SelectedNumber
+from components.button import Button
+from components.bracket import Bracket
+from components.grading import Grading
+from components.timer import Timer
 
 
 class Points:
@@ -58,6 +60,11 @@ class Points:
 
         self.grading = Grading(self)
         self.timer = Timer(self)
+
+        # root = Tk()
+        # root.tittl("My Gui App")
+        # root.geometry('500x300+100+200')
+        # root.mainloop()
 
     def _check_event(self):
         for event in pg.event.get():
