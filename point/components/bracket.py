@@ -18,6 +18,7 @@ class Bracket:
         self.font = pg.font.SysFont(None, 120)
 
         self.value = self.settings.bracket[index - 1]
+        self.bracket = None
         self.bracket_rect = pg.Rect(self.pos[index - 1][0], self.pos[index - 1][1], self.width, self.height)
 
     def blitme(self):
@@ -42,8 +43,10 @@ class Bracket:
 
     def _select(self):
         self.selected = True
+        self.bracket = self.value
         self.bracket_color = self.settings.bracket_selected_color
 
     def unselect(self):
         self.selected = False
+        self.bracket = None
         self.bracket_color = self.settings.bracket_unselected_color

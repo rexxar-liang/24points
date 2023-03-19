@@ -113,12 +113,12 @@ class Points:
                                                 self.selected_symbol1.symbol,
                                                 self.selected_symbol2.symbol,
                                                 self.selected_symbol3.symbol,
-                                                self.bracket1.value,
-                                                self.bracket2.value,
-                                                self.bracket3.value,
-                                                self.bracket4.value,
-                                                self.bracket5.value,
-                                                self.bracket6.value)
+                                                self.bracket1.bracket,
+                                                self.bracket2.bracket,
+                                                self.bracket3.bracket,
+                                                self.bracket4.bracket,
+                                                self.bracket5.bracket,
+                                                self.bracket6.bracket)
                     if result:
                         print("Correct!")
                         self._next_round()
