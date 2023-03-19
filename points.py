@@ -1,8 +1,6 @@
 import sys
 import pygame as pg
 import random
-import tkinter
-from tkinter import messagebox
 
 from setting import Settings
 from symbols import Symbol
@@ -11,6 +9,7 @@ from numbers import Number
 from selected_number import SelectedNumber
 from button import Button
 from grading import Grading
+from bracket import Bracket
 
 
 class Points:
@@ -27,10 +26,10 @@ class Points:
         pg.display.set_caption("24点")
 
         self.bg_color = (230, 230, 230)
-        self.symbol1 = Symbol(self, 'plus')
-        self.symbol2 = Symbol(self, 'minus')
-        self.symbol3 = Symbol(self, 'mul')
-        self.symbol4 = Symbol(self, 'div')
+        self.symbol1 = Symbol(self, 1)
+        self.symbol2 = Symbol(self, 2)
+        self.symbol3 = Symbol(self, 3)
+        self.symbol4 = Symbol(self, 4)
 
         self.selected_symbol1 = SelectedSymbol(self, 1)
         self.selected_symbol2 = SelectedSymbol(self, 2)
@@ -45,6 +44,13 @@ class Points:
         self.selected_number2 = SelectedNumber(self, 2)
         self.selected_number3 = SelectedNumber(self, 3)
         self.selected_number4 = SelectedNumber(self, 4)
+
+        self.bracket1 = Bracket(self, 1)
+        self.bracket2 = Bracket(self, 2)
+        self.bracket3 = Bracket(self, 3)
+        self.bracket4 = Bracket(self, 4,)
+        self.bracket5 = Bracket(self, 5,)
+        self.bracket6 = Bracket(self, 6)
 
         self.check_button = Button(self, (497, 630), "Check")
         self.next_button = Button(self, (680, 630), "Next")
@@ -74,6 +80,12 @@ class Points:
                 self.selected_number2.update(event.pos)
                 self.selected_number3.update(event.pos)
                 self.selected_number4.update(event.pos)
+                self.bracket1.update(event.pos)
+                self.bracket2.update(event.pos)
+                self.bracket3.update(event.pos)
+                self.bracket4.update(event.pos)
+                self.bracket5.update(event.pos)
+                self.bracket6.update(event.pos)
                 self.check_button.update(event.pos)
                 self.next_button.update(event.pos)
 
@@ -87,7 +99,13 @@ class Points:
                                                 self.selected_number4.number,
                                                 self.selected_symbol1.symbol,
                                                 self.selected_symbol2.symbol,
-                                                self.selected_symbol3.symbol)
+                                                self.selected_symbol3.symbol,
+                                                self.bracket1.value,
+                                                self.bracket2.value,
+                                                self.bracket3.value,
+                                                self.bracket4.value,
+                                                self.bracket5.value,
+                                                self.bracket6.value)
                     if result:
                         print("Correct!")
                         self._next_round()
@@ -254,6 +272,12 @@ class Points:
         self.selected_number2.blitme()
         self.selected_number3.blitme()
         self.selected_number4.blitme()
+        self.bracket1.blitme()
+        self.bracket2.blitme()
+        self.bracket3.blitme()
+        self.bracket4.blitme()
+        self.bracket5.blitme()
+        self.bracket6.blitme()
         self.check_button.blitme()
         self.next_button.blitme()
         self.grading.blitme()

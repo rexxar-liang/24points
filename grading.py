@@ -22,6 +22,7 @@ class Grading:
         pg.mixer.music.set_volume(1)
 
         pass
+
     # 先画计算总分的文本框，再把分数信息打进框的正中间
     def blitme(self):
         score_image = self.font.render("Total Score: " + str(self.score), True, self.score_text_color, self.bg_color)
@@ -41,7 +42,7 @@ class Grading:
 
     # 判断符号优先级，先乘除后加减
     def _higher(self, symbol):
-        if (symbol == 'plus' or symbol == 'minus'):
+        if symbol == 'plus' or symbol == 'minus':
             return False
         else:
             return True
@@ -61,31 +62,42 @@ class Grading:
     def _check(self, number1, number2, number3, number4, symbol1, symbol2, symbol3):
         # * * *  1 2 3 4
         if self._higher(symbol1) and self._higher(symbol2) and self._higher(symbol3):
-            return 24.0 == self._caculate(self._caculate(self._caculate(number1, number2, symbol1), number3, symbol2), number4, symbol3)
+            return 24.0 == self._caculate(self._caculate(self._caculate(number1, number2, symbol1), number3, symbol2),
+                                          number4, symbol3)
         # * * +  1 2 3 4
         elif self._higher(symbol1) and self._higher(symbol2) and not self._higher(symbol3):
-            return 24.0 == self._caculate(self._caculate(self._caculate(number1, number2, symbol1), number3, symbol2), number4, symbol3)
+            return 24.0 == self._caculate(self._caculate(self._caculate(number1, number2, symbol1), number3, symbol2),
+                                          number4, symbol3)
         # * + *  1 2    3 4
         elif self._higher(symbol1) and not self._higher(symbol2) and self._higher(symbol3):
-            return 24.0 == self._caculate(self._caculate(number1, number2, symbol1), self._caculate(number3, number4, symbol3), symbol2)
+            return 24.0 == self._caculate(self._caculate(number1, number2, symbol1),
+                                          self._caculate(number3, number4, symbol3), symbol2)
         # * + +  1 2 3 4
         elif self._higher(symbol1) and not self._higher(symbol2) and not self._higher(symbol3):
-            return 24.0 == self._caculate(self._caculate(self._caculate(number1, number2, symbol1), number3, symbol2), number4, symbol3)
+            return 24.0 == self._caculate(self._caculate(self._caculate(number1, number2, symbol1), number3, symbol2),
+                                          number4, symbol3)
         # + * *  2 3  4
         elif not self._higher(symbol1) and self._higher(symbol2) and self._higher(symbol3):
-            return 24.0 == self._caculate(number1, self._caculate(self._caculate(number2, number3, symbol2), number4, symbol3), symbol1)
+            return 24.0 == self._caculate(number1,
+                                          self._caculate(self._caculate(number2, number3, symbol2), number4, symbol3),
+                                          symbol1)
         # + * +  2 3  1  4
         elif not self._higher(symbol1) and self._higher(symbol2) and not self._higher(symbol3):
-            return 24.0 == self._caculate(self._caculate(number1, self._caculate(number2, number3, symbol2), symbol1), number4, symbol3)
+            return 24.0 == self._caculate(self._caculate(number1, self._caculate(number2, number3, symbol2), symbol1),
+                                          number4, symbol3)
         # + + *  3 4  1  2
         elif not self._higher(symbol1) and not self._higher(symbol2) and self._higher(symbol3):
-            return 24.0 == self._caculate(self._caculate(number1, number2, symbol1), self._caculate(number3, number4, symbol3), symbol2)
+            return 24.0 == self._caculate(self._caculate(number1, number2, symbol1),
+                                          self._caculate(number3, number4, symbol3), symbol2)
         # + + +  1 2 3 4
         elif not self._higher(symbol1) and not self._higher(symbol2) and not self._higher(symbol3):
-            return 24.0 == self._caculate(self._caculate(self._caculate(number1, number2, symbol1), number3, symbol2), number4, symbol3)
+            return 24.0 == self._caculate(self._caculate(self._caculate(number1, number2, symbol1), number3, symbol2),
+                                          number4, symbol3)
 
     # Check按钮的处理函数，计算是否24，如果有空的格子，直接返回错误，如果计算正确，总分加10分
-    def check(self, number1, number2, number3, number4, symbol1, symbol2, symbol3):
+    def check(self, number1, number2, number3, number4,
+              symbol1, symbol2, symbol3,
+              bracket1, bracket2, bracket3, bracket4, bracket5, bracket6):
         if (number1 is None
                 or number2 is None
                 or number3 is None
@@ -96,14 +108,14 @@ class Grading:
             self._play_music(False)
             return False
 
-        #print(self._check(1, 2, 3, 4, "mul", "mul", "mul"))
-        #print(self._check(3, 3, 2, 6, "mul", "mul", "plus"))
-        #print(self._check(3, 4, 3, 4, "mul", "plus", "mul"))
-        #print(self._check(3, 4, 6, 6, "mul", "plus", "plus"))
-        #print(self._check(6, 2, 3, 3, "plus", "mul", "mul"))
-        #print(self._check(6, 3, 4, 6, "plus", "mul", "plus"))
-        #print(self._check(6, 6, 3, 4, "plus", "plus", "mul"))
-        #print(self._check(6, 6, 6, 6, "plus", "plus", "plus"))
+        # print(self._check(1, 2, 3, 4, "mul", "mul", "mul"))
+        # print(self._check(3, 3, 2, 6, "mul", "mul", "plus"))
+        # print(self._check(3, 4, 3, 4, "mul", "plus", "mul"))
+        # print(self._check(3, 4, 6, 6, "mul", "plus", "plus"))
+        # print(self._check(6, 2, 3, 3, "plus", "mul", "mul"))
+        # print(self._check(6, 3, 4, 6, "plus", "mul", "plus"))
+        # print(self._check(6, 6, 3, 4, "plus", "plus", "mul"))
+        # print(self._check(6, 6, 6, 6, "plus", "plus", "plus"))
 
         result = self._check(number1, number2, number3, number4, symbol1, symbol2, symbol3)
         if result:

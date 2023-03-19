@@ -1,4 +1,4 @@
-import sys
+
 import pygame as pg
 
 from setting import Settings
@@ -15,21 +15,13 @@ class SelectedSymbol:
         self.width = self.settings.symbol_width
         self.height = self.settings.symbol_height
         self.selected_border = self.settings.selected_border
+        self.pos = self.settings.selected_symbol_pos
         self.symbol = None
         self.image = None
 
-        if index == 1:
-            self.bg_rect = pg.Rect(373, 460, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(373 + self.selected_border, 460 + self.selected_border, self.width, self.height)
-        elif index == 2:
-            self.bg_rect = pg.Rect(613, 460, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(613 + self.selected_border, 460 + self.selected_border, self.width, self.height)
-        elif index == 3:
-            self.bg_rect = pg.Rect(853, 460, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(853 + self.selected_border, 460 + self.selected_border, self.width, self.height)
-        else:
-            print("Invalid Symbol Index!")
-            sys.exit()
+        self.bg_rect = pg.Rect(self.pos[index - 1][0], self.pos[index - 1][1], self.width + self.selected_border * 2, self.height + self.selected_border * 2)
+        self.image_rect = pg.Rect(self.pos[index - 1][0] + self.selected_border, self.pos[index - 1][1] + self.selected_border, self.width, self.height)
+
 
     def blitme(self):
         pg.draw.rect(self.screen, self.bg_color, self.bg_rect)

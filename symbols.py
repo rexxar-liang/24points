@@ -1,4 +1,4 @@
-import sys
+
 import pygame as pg
 
 from setting import Settings
@@ -6,7 +6,7 @@ from setting import Settings
 
 class Symbol:
 
-    def __init__(self, game, type):
+    def __init__(self, game, index):
         self.screen = game.screen
         self.screen_rect = game.screen.get_rect()
         self.settings = Settings()
@@ -14,28 +14,13 @@ class Symbol:
         self.bg_color = self.settings.symbol_bg_color
         self.width = self.settings.symbol_width
         self.height = self.settings.symbol_height
+        self.pos = self.settings.symbol_pos
         self.selected_border = self.settings.selected_border
-        self.symbol = type
+        self.symbol = self.settings.symbol[index - 1]
 
-        if type == 'plus':
-            self.image = pg.image.load("images/symbols/plus.png")
-            self.bg_rect = pg.Rect(50, 60, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(50 + self.selected_border, 60 + self.selected_border, self.width, self.height)
-        elif type == 'minus':
-            self.image = pg.image.load("images/symbols/minus.png")
-            self.bg_rect = pg.Rect(50, 120, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(50 + self.selected_border, 120 + self.selected_border, self.width, self.height)
-        elif type == 'mul':
-            self.image = pg.image.load("images/symbols/mul.png")
-            self.bg_rect = pg.Rect(50, 180, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(50 + self.selected_border, 180 + self.selected_border, self.width, self.height)
-        elif type == 'div':
-            self.image = pg.image.load("images/symbols/div.png")
-            self.bg_rect = pg.Rect(50, 240, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(50 + self.selected_border, 240 + self.selected_border, self.width, self.height)
-        else:
-            print("Invalid Symbol Type!")
-            sys.exit()
+        self.image = pg.image.load("images/symbols/" + self.symbol + ".png")
+        self.bg_rect = pg.Rect(self.pos[index - 1][0], self.pos[index - 1][1], self.width + self.selected_border * 2, self.height + self.selected_border * 2)
+        self.image_rect = pg.Rect(self.pos[index - 1][0] + self.selected_border, self.pos[index - 1][1] + self.selected_border, self.width, self.height)
 
         self.image = pg.transform.scale(self.image, (self.width, self.height))
 

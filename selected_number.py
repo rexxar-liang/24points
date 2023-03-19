@@ -1,4 +1,4 @@
-import sys
+
 import pygame as pg
 
 from setting import Settings
@@ -15,25 +15,12 @@ class SelectedNumber:
         self.width = self.settings.number_width
         self.height = self.settings.number_height
         self.selected_border = self.settings.selected_border
+        self.pos = self.settings.selected_number_pos
         self.number = None
         self.image = None
 
-        if index == 1:
-            self.bg_rect = pg.Rect(200, 360, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(200 + self.selected_border, 360 + self.selected_border, self.width, self.height)
-        elif index == 2:
-            self.bg_rect = pg.Rect(440, 360, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(440 + self.selected_border, 360 + self.selected_border, self.width, self.height)
-        elif index == 3:
-            self.bg_rect = pg.Rect(680, 360, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(680 + self.selected_border, 360 + self.selected_border, self.width, self.height)
-        elif index == 4:
-            self.bg_rect = pg.Rect(920, 360, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(920 + self.selected_border, 360 + self.selected_border, self.width, self.height)
-        else:
-            print("Invalid Index!")
-            sys.exit()
-
+        self.bg_rect = pg.Rect(self.pos[index - 1][0], self.pos[index - 1][1], self.width + self.selected_border * 2, self.height + self.selected_border * 2)
+        self.image_rect = pg.Rect(self.pos[index - 1][0] + self.selected_border, self.pos[index - 1][1] + self.selected_border, self.width, self.height)
 
     def blitme(self):
         pg.draw.rect(self.screen, self.bg_color, self.bg_rect)

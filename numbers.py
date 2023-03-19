@@ -15,28 +15,13 @@ class Number:
         self.width = self.settings.number_width
         self.height = self.settings.number_height
         self.selected_border = self.settings.selected_border
+        self.pos = self.settings.number_pos
         self.number = number
         self.image = None
 
-        if index == 1:
-            self.image = pg.image.load("images/numbers/" + str(number) + ".jpeg")
-            self.bg_rect = pg.Rect(200, 60, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(200 + self.selected_border, 60 + self.selected_border, self.width, self.height)
-        elif index == 2:
-            self.image = pg.image.load("images/numbers/" + str(number) + ".jpeg")
-            self.bg_rect = pg.Rect(440, 60, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(440 + self.selected_border, 60 + self.selected_border, self.width, self.height)
-        elif index == 3:
-            self.image = pg.image.load("images/numbers/" + str(number) + ".jpeg")
-            self.bg_rect = pg.Rect(680, 60, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(680 + self.selected_border, 60 + self.selected_border, self.width, self.height)
-        elif index == 4:
-            self.image = pg.image.load("images/numbers/" + str(number) + ".jpeg")
-            self.bg_rect = pg.Rect(920, 60, self.width + self.selected_border * 2, self.height + self.selected_border * 2)
-            self.image_rect = pg.Rect(920 + self.selected_border, 60 + self.selected_border, self.width, self.height)
-        else:
-            print("Invalid Index!")
-            sys.exit()
+        self.image = pg.image.load("images/numbers/" + str(number) + ".jpeg")
+        self.bg_rect = pg.Rect(self.pos[index - 1][0], self.pos[index - 1][1], self.width + self.selected_border * 2, self.height + self.selected_border * 2)
+        self.image_rect = pg.Rect(self.pos[index - 1][0] + self.selected_border, self.pos[index - 1][1] + self.selected_border, self.width, self.height)
 
         self.image = pg.transform.scale(self.image, (self.width, self.height))
 
