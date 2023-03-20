@@ -1,3 +1,6 @@
+invaild_number = 1000000
+
+
 def _validate_numbers(number1, number2, number3, number4):
     if (number1 is None
             or number2 is None
@@ -63,13 +66,16 @@ def _caculate(number1, number2, symbol):
     elif symbol == "mul":
         return number1 * number2
     elif symbol == "div":
-        return number1 / number2
+        if number2 == 0:
+            return invaild_number
+        else:
+            return number1 / number2
 
 
 # 穷举如下所有的可能出现的运算优先级顺序，计算结果是否等于24，如果等于返回True，否则返回False
 # number symbol number symbol number symbol number
 # (number symbol number symbol number symbol number)
-def _check(number1, number2, number3, number4, symbol1, symbol2, symbol3):
+def _check1(number1, number2, number3, number4, symbol1, symbol2, symbol3):
     # * * *  1 2 3 4
     if _higher(symbol1) and _higher(symbol2) and _higher(symbol3):
         return 24.0 == _caculate(_caculate(_caculate(number1, number2, symbol1), number3, symbol2),
@@ -204,11 +210,17 @@ def check(number1, number2, number3, number4,
                             symbol1, symbol2, symbol3,
                             bracket1, bracket2, bracket3, bracket4, bracket5, bracket6):
         return False
+    return check_only(number1, number2, number3, number4,
+                      symbol1, symbol2, symbol3,
+                      bracket1, bracket2, bracket3, bracket4, bracket5, bracket6)
 
+
+def check_only(number1, number2, number3, number4,
+               symbol1, symbol2, symbol3,
+               bracket1, bracket2, bracket3, bracket4, bracket5, bracket6):
     brackets = (bracket1, bracket2, bracket3, bracket4, bracket5, bracket6)
-
     if brackets == valid_brackets[0] or brackets == valid_brackets[1]:
-        return _check(number1, number2, number3, number4, symbol1, symbol2, symbol3)
+        return _check1(number1, number2, number3, number4, symbol1, symbol2, symbol3)
     elif brackets == valid_brackets[2]:
         return _check2(number1, number2, number3, number4, symbol1, symbol2, symbol3)
     elif brackets == valid_brackets[3]:

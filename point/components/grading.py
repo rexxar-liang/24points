@@ -45,7 +45,6 @@ class Grading:
     def check(self, number1, number2, number3, number4,
               symbol1, symbol2, symbol3,
               bracket1, bracket2, bracket3, bracket4, bracket5, bracket6):
-        # checker.test_check()
         result = checker.check(number1, number2, number3, number4,
                                symbol1, symbol2, symbol3,
                                bracket1, bracket2, bracket3, bracket4, bracket5, bracket6)

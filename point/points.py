@@ -14,6 +14,8 @@ from components.bracket import Bracket
 from components.grading import Grading
 from components.timer import Timer
 
+from caculator.answer import Answer
+
 
 class Points:
 
@@ -28,6 +30,8 @@ class Points:
         self.screen = pg.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pg.display.set_caption("24点")
 
+        self.answer = Answer()
+
         self.bg_color = (230, 230, 230)
         self.symbol1 = Symbol(self, 1)
         self.symbol2 = Symbol(self, 2)
@@ -38,10 +42,11 @@ class Points:
         self.selected_symbol2 = SelectedSymbol(self, 2)
         self.selected_symbol3 = SelectedSymbol(self, 3)
 
-        self.number1 = Number(self, 1, random.randint(1, 10))
-        self.number2 = Number(self, 2, random.randint(1, 10))
-        self.number3 = Number(self, 3, random.randint(1, 10))
-        self.number4 = Number(self, 4, random.randint(1, 10))
+        number1, number2, number3, number4 = self._gen_numbers()
+        self.number1 = Number(self, 1, number1)
+        self.number2 = Number(self, 2, number2)
+        self.number3 = Number(self, 3, number3)
+        self.number4 = Number(self, 4, number4)
 
         self.selected_number1 = SelectedNumber(self, 1)
         self.selected_number2 = SelectedNumber(self, 2)
@@ -255,11 +260,25 @@ class Points:
                         self.select_number = None
                         self.selected_number = None
 
+    def _gen_numbers(self):
+        answers = []
+        while not answers:
+            number1 = random.randint(1, 10)
+            number2 = random.randint(1, 10)
+            number3 = random.randint(1, 10)
+            number4 = random.randint(1, 10)
+            answers = self.answer.get_answers(number1, number2, number3, number4)
+        print(self.answer.get_one_answer())
+        return number1, number2, number3, number4
+
     def _next_round(self):
-        self.number1.set_number(random.randint(1, 10))
-        self.number2.set_number(random.randint(1, 10))
-        self.number3.set_number(random.randint(1, 10))
-        self.number4.set_number(random.randint(1, 10))
+        number1, number2, number3, number4 = self._gen_numbers()
+
+        self.number1.set_number(number1)
+        self.number2.set_number(number2)
+        self.number3.set_number(number3)
+        self.number4.set_number(number4)
+
         self.selected_number1.set_number(None)
         self.selected_number2.set_number(None)
         self.selected_number3.set_number(None)
