@@ -152,5 +152,5 @@ class Answer:
             return ""
         count = len(self.correct_answers)
         index = random.randint(1, count)
-        answer = self.correct_answers[index]
+        answer = self.correct_answers[index - 1]
         return to_string(answer)

@@ -1,8 +1,6 @@
 import sys
 import pygame as pg
 import random
-from tkinter import *
-# from tkinter import messagebox
 
 from config.setting import Settings
 from components.symbols import Symbol
@@ -15,11 +13,14 @@ from components.grading import Grading
 from components.timer import Timer
 
 from caculator.answer import Answer
+from ranking import Ranking
 
 
 class Points:
 
     def __init__(self):
+        self.ranking = Ranking()
+
         pg.init()
         self.settings = Settings()
         self.select_number = None
@@ -56,20 +57,16 @@ class Points:
         self.bracket1 = Bracket(self, 1)
         self.bracket2 = Bracket(self, 2)
         self.bracket3 = Bracket(self, 3)
-        self.bracket4 = Bracket(self, 4,)
-        self.bracket5 = Bracket(self, 5,)
+        self.bracket4 = Bracket(self, 4)
+        self.bracket5 = Bracket(self, 5)
         self.bracket6 = Bracket(self, 6)
 
         self.check_button = Button(self, self.settings.check_button_pos, "Check")
         self.next_button = Button(self, self.settings.next_button_pos, "Next")
+        self.finish_button = Button(self, self.settings.finish_button_pos, "Finish")
 
         self.grading = Grading(self)
         self.timer = Timer(self)
-
-        # root = Tk()
-        # root.tittl("My Gui App")
-        # root.geometry('500x300+100+200')
-        # root.mainloop()
 
     def _check_event(self):
         for event in pg.event.get():
@@ -78,6 +75,7 @@ class Points:
             elif event.type == pg.MOUSEBUTTONUP:
                 self.check_button.unselect()
                 self.next_button.unselect()
+                self.finish_button.unselect()
             elif event.type == self.settings.EVENT_TIMING:
                 is_run_outof_time = self.timer.update()
                 if is_run_outof_time:
@@ -106,9 +104,14 @@ class Points:
                 self.bracket6.update(event.pos)
                 self.check_button.update(event.pos)
                 self.next_button.update(event.pos)
+                self.finish_button.update(event.pos)
 
                 if self.next_button.is_selected():
                     self._next_round()
+
+                if self.finish_button.is_selected():
+                    self.ranking.add_new_record(self.grading.score)
+                    sys.exit()
 
                 if self.check_button.is_selected():
                     result = self.grading.check(self.selected_number1.number,
@@ -319,6 +322,7 @@ class Points:
         self.bracket6.blitme()
         self.check_button.blitme()
         self.next_button.blitme()
+        self.finish_button.blitme()
         self.grading.blitme()
         self.timer.blitme()
         pg.display.flip()

@@ -52,10 +52,13 @@ class Settings:
         self.score_pos = (950, 0)
         self.check_button_pos = (480, 630)
         self.next_button_pos = (707, 630)
+        self.finish_button_pos = (1000, 630)
 
         self.timer_pos = (750, 0)
         self.timer_counts = 90
         self.timer_interval = 1000
         self.timer_text = "Time Left: "
+
+        self.ranking_file = "ranking.json"
 
         self.EVENT_TIMING = pygame.USEREVENT + 1
