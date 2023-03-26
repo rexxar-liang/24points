@@ -265,6 +265,7 @@ class Points:
 
     def _gen_numbers(self):
         answers = []
+        number1, number2, number3, number4 = None, None, None, None
         while not answers:
             number1 = random.randint(1, 10)
             number2 = random.randint(1, 10)
@@ -327,7 +328,8 @@ class Points:
         self.timer.blitme()
         pg.display.flip()
 
-    def run_game(self):
+    def play(self):
         while True:
             self._check_event()
             self._update_screen()
+

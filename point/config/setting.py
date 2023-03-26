@@ -60,5 +60,6 @@ class Settings:
         self.timer_text = "Time Left: "
 
         self.ranking_file = "ranking.json"
+        self.max_ranking_list = 10
 
         self.EVENT_TIMING = pygame.USEREVENT + 1

@@ -14,6 +14,7 @@ class Ranking:
         root.withdraw()
         self.settings = Settings()
         self.ranking_file = self.settings.ranking_file
+        self.max_ranking_list = self.settings.max_ranking_list
         self.records = self.read_record()
 
     def read_record(self):
@@ -42,11 +43,15 @@ class Ranking:
                 break
             else:
                 ranking += 1
-        # sorted_records = sorted(self.records, key=lambda k: (k.get('score', 0)))
+        #
         return ranking
 
+    def get_ranking_list(self):
+        sorted_records = sorted(self.records, key=lambda k: (k.get('score', 1)), reverse=True)
+        return sorted_records[:self.max_ranking_list]
+
     def save_record(self, name, score):
-        new_record = {"name": name, "score": score, "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        new_record = {"name": name, "score": score, "date": datetime.datetime.now().strftime('%m-%d %H:%M')}
         self.records.append(new_record)
         with open(self.ranking_file, 'w', encoding='utf-8') as fp:
             json.dump(self.records, fp, indent=4, ensure_ascii=False)
