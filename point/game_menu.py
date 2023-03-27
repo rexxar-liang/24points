@@ -1,5 +1,7 @@
 import pygame_menu as game_menu
 
+from point.config.setting import Settings
+
 ABOUT = [f'Author: {"Liang Chen Yu"}',
          f'Email: {"lb2261981@mail.163.com"}']
 RANKING_FIELDS = {"name": "Name", "score": "Score", "date": "Time"}
@@ -27,6 +29,8 @@ class GameMenu:
 
     def __init__(self, game):
         self.game = game
+        self.settings = Settings()
+        self.font_file = self.settings.font_file
 
     def ranking_menu(self):
         ranking_theme = game_menu.themes.THEME_BLUE.copy()
@@ -44,27 +48,27 @@ class GameMenu:
             width=600
         )
 
-        ranking_menu.add.label("NO.")
+        ranking_menu.add.label("NO.", font_name=self.font_file)
         for i in range(1, len(ranking_list)):
-            ranking_menu.add.label(str(i))
+            ranking_menu.add.label(str(i), font_name=self.font_file)
         if len(ranking_list) < RANKING_LIST_MIN_ROW:
             for i in range(len(ranking_list), RANKING_LIST_MIN_ROW):
                 ranking_menu.add.label("")
         ranking_menu.add.label("")
         for ranking in ranking_list:
-            ranking_menu.add.label(ranking.get("name"))
+            ranking_menu.add.label(ranking.get("name"), font_name=self.font_file)
         if len(ranking_list) < RANKING_LIST_MIN_ROW:
             for i in range(len(ranking_list), RANKING_LIST_MIN_ROW):
                 ranking_menu.add.label("")
         ranking_menu.add.label("")
         for ranking in ranking_list:
-            ranking_menu.add.label(ranking.get("score"))
+            ranking_menu.add.label(ranking.get("score"), font_name=self.font_file)
         if len(ranking_list) < RANKING_LIST_MIN_ROW:
             for i in range(len(ranking_list), RANKING_LIST_MIN_ROW):
                 ranking_menu.add.label("")
-        ranking_menu.add.button('Return to Menu', game_menu.events.BACK)
+        ranking_menu.add.button('Return to Menu', game_menu.events.BACK, font_name=self.font_file)
         for ranking in ranking_list:
-            ranking_menu.add.label(ranking.get("date"))
+            ranking_menu.add.label(ranking.get("date"), font_name=self.font_file)
         if len(ranking_list) < RANKING_LIST_MIN_ROW:
             for i in range(len(ranking_list), RANKING_LIST_MIN_ROW):
                 ranking_menu.add.label("")

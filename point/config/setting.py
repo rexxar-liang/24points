@@ -63,3 +63,5 @@ class Settings:
         self.max_ranking_list = 10
 
         self.EVENT_TIMING = pygame.USEREVENT + 1
+
+        self.font_file = "./font/SimSun.ttf"
