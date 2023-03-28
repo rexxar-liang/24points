@@ -18,6 +18,8 @@ class SelectedNumber:
         self.pos = self.settings.selected_number_pos
         self.number = None
         self.image = None
+        self.type = "SELECTED_NUMBER"
+        self.index = index
 
         self.bg_rect = pg.Rect(self.pos[index - 1][0],
                                self.pos[index - 1][1],

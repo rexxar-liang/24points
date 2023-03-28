@@ -23,10 +23,10 @@ class Points:
 
         pg.init()
         self.settings = Settings()
-        self.select_number = None
         self.select_symbol = None
-        self.selected_number = None
         self.last_selected_symbol = None
+        self.current_selected_number = None
+        self.last_selected_number = None
 
         self.screen = pg.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pg.display.set_caption("24点")
@@ -68,6 +68,149 @@ class Points:
         self.grading = Grading(self)
         self.timer = Timer(self)
 
+    def _update(self, event):
+        self.symbol1.update(event.pos)
+        self.symbol2.update(event.pos)
+        self.symbol3.update(event.pos)
+        self.symbol4.update(event.pos)
+
+        self.selected_symbol1.update(event.pos)
+        self.selected_symbol2.update(event.pos)
+        self.selected_symbol3.update(event.pos)
+
+        self.number1.update(event.pos)
+        self.number2.update(event.pos)
+        self.number3.update(event.pos)
+        self.number4.update(event.pos)
+
+        self.selected_number1.update(event.pos)
+        self.selected_number2.update(event.pos)
+        self.selected_number3.update(event.pos)
+        self.selected_number4.update(event.pos)
+
+        self.bracket1.update(event.pos)
+        self.bracket2.update(event.pos)
+        self.bracket3.update(event.pos)
+        self.bracket4.update(event.pos)
+        self.bracket5.update(event.pos)
+        self.bracket6.update(event.pos)
+
+        self.check_button.update(event.pos)
+        self.next_button.update(event.pos)
+        self.finish_button.update(event.pos)
+
+    def _try_button_action(self):
+        if self.next_button.is_selected():
+            self._next_round()
+        elif self.finish_button.is_selected():
+            self.ranking.add_new_record(self.grading.score)
+            sys.exit()
+        elif self.check_button.is_selected():
+            result = self.grading.check(self.selected_number1.number,
+                                        self.selected_number2.number,
+                                        self.selected_number3.number,
+                                        self.selected_number4.number,
+                                        self.selected_symbol1.symbol,
+                                        self.selected_symbol2.symbol,
+                                        self.selected_symbol3.symbol,
+                                        self.bracket1.bracket,
+                                        self.bracket2.bracket,
+                                        self.bracket3.bracket,
+                                        self.bracket4.bracket,
+                                        self.bracket5.bracket,
+                                        self.bracket6.bracket)
+            if result:
+                print("Correct!")
+                self._next_round()
+            else:
+                print("Fault!")
+
+    def _try_symbol_exchange(self):
+        if self.symbol1.is_selected():
+            self.select_symbol = self.symbol1
+        elif self.symbol2.is_selected():
+            self.select_symbol = self.symbol2
+        elif self.symbol3.is_selected():
+            self.select_symbol = self.symbol3
+        elif self.symbol4.is_selected():
+            self.select_symbol = self.symbol4
+
+        if self.selected_symbol1.is_selected():
+            if not self.last_selected_symbol:
+                self.last_selected_symbol = self.selected_symbol1
+        elif self.selected_symbol2.is_selected():
+            if not self.last_selected_symbol:
+                self.last_selected_symbol = self.selected_symbol2
+        elif self.selected_symbol3.is_selected():
+            if not self.last_selected_symbol:
+                self.last_selected_symbol = self.selected_symbol3
+
+        if self.select_symbol and self.last_selected_symbol:
+            symbol = self.select_symbol.symbol
+            self.last_selected_symbol.set_symbol(symbol)
+            self.last_selected_symbol.unselect()
+            self.select_symbol = None
+            self.last_selected_symbol = None
+
+        # exchange between selected symbols
+        if self.last_selected_symbol:
+            symbol = self.last_selected_symbol.symbol
+            if self.selected_symbol1.is_selected() and symbol != self.selected_symbol1.symbol:
+                self.last_selected_symbol.set_symbol(self.selected_symbol1.symbol)
+                self.selected_symbol1.set_symbol(symbol)
+                self.selected_symbol1.unselect()
+                self.select_symbol = None
+                self.last_selected_symbol = None
+            elif self.selected_symbol2.is_selected() and symbol != self.selected_symbol2.symbol:
+                self.last_selected_symbol.set_symbol(self.selected_symbol2.symbol)
+                self.selected_symbol2.set_symbol(symbol)
+                self.selected_symbol2.unselect()
+                self.select_symbol = None
+                self.last_selected_symbol = None
+            elif self.selected_symbol3.is_selected() and symbol != self.selected_symbol3.symbol:
+                self.last_selected_symbol.set_symbol(self.selected_symbol3.symbol)
+                self.selected_symbol3.set_symbol(symbol)
+                self.selected_symbol3.unselect()
+                self.select_symbol = None
+                self.last_selected_symbol = None
+
+    def _try_number_exchange(self):
+        self.current_selected_number = None
+
+        if self.number1.is_selected():
+            self.current_selected_number = self.number1
+        elif self.number2.is_selected():
+            self.current_selected_number = self.number2
+        elif self.number3.is_selected():
+            self.current_selected_number = self.number3
+        elif self.number4.is_selected():
+            self.current_selected_number = self.number4
+        elif self.selected_number1.is_selected():
+            self.current_selected_number = self.selected_number1
+        elif self.selected_number2.is_selected():
+            self.current_selected_number = self.selected_number2
+        elif self.selected_number3.is_selected():
+            self.current_selected_number = self.selected_number3
+        elif self.selected_number4.is_selected():
+            self.current_selected_number = self.selected_number4
+
+        if self.current_selected_number:
+            if not self.last_selected_number:
+                self.last_selected_number = self.current_selected_number
+        else:
+            self.last_selected_number = None
+
+        if self.current_selected_number and self.last_selected_number:
+            if not (self.current_selected_number.type == self.last_selected_number.type
+                    and self.current_selected_number.index == self.last_selected_number.index):
+                number = self.current_selected_number.number
+                self.current_selected_number.set_number(self.last_selected_number.number)
+                self.last_selected_number.set_number(number)
+                self.last_selected_number.unselect()
+                self.current_selected_number.unselect()
+                self.current_selected_number = None
+                self.last_selected_number = None
+
     def _check_event(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -81,187 +224,11 @@ class Points:
                 if is_run_outof_time:
                     self._next_round()
             elif event.type == pg.MOUSEBUTTONDOWN:
-                self.symbol1.update(event.pos)
-                self.symbol2.update(event.pos)
-                self.symbol3.update(event.pos)
-                self.selected_symbol1.update(event.pos)
-                self.selected_symbol2.update(event.pos)
-                self.selected_symbol3.update(event.pos)
-                self.symbol4.update(event.pos)
-                self.number1.update(event.pos)
-                self.number2.update(event.pos)
-                self.number3.update(event.pos)
-                self.number4.update(event.pos)
-                self.selected_number1.update(event.pos)
-                self.selected_number2.update(event.pos)
-                self.selected_number3.update(event.pos)
-                self.selected_number4.update(event.pos)
-                self.bracket1.update(event.pos)
-                self.bracket2.update(event.pos)
-                self.bracket3.update(event.pos)
-                self.bracket4.update(event.pos)
-                self.bracket5.update(event.pos)
-                self.bracket6.update(event.pos)
-                self.check_button.update(event.pos)
-                self.next_button.update(event.pos)
-                self.finish_button.update(event.pos)
+                self._update(event)
 
-                if self.next_button.is_selected():
-                    self._next_round()
-
-                if self.finish_button.is_selected():
-                    self.ranking.add_new_record(self.grading.score)
-                    sys.exit()
-
-                if self.check_button.is_selected():
-                    result = self.grading.check(self.selected_number1.number,
-                                                self.selected_number2.number,
-                                                self.selected_number3.number,
-                                                self.selected_number4.number,
-                                                self.selected_symbol1.symbol,
-                                                self.selected_symbol2.symbol,
-                                                self.selected_symbol3.symbol,
-                                                self.bracket1.bracket,
-                                                self.bracket2.bracket,
-                                                self.bracket3.bracket,
-                                                self.bracket4.bracket,
-                                                self.bracket5.bracket,
-                                                self.bracket6.bracket)
-                    if result:
-                        print("Correct!")
-                        self._next_round()
-                    else:
-                        print("Fault!")
-
-                if self.symbol1.is_selected():
-                    self.select_symbol = self.symbol1
-                if self.symbol2.is_selected():
-                    self.select_symbol = self.symbol2
-                if self.symbol3.is_selected():
-                    self.select_symbol = self.symbol3
-                if self.symbol4.is_selected():
-                    self.select_symbol = self.symbol4
-
-                if self.selected_symbol1.is_selected():
-                    if not self.last_selected_symbol:
-                        self.last_selected_symbol = self.selected_symbol1
-                if self.selected_symbol2.is_selected():
-                    if not self.last_selected_symbol:
-                        self.last_selected_symbol = self.selected_symbol2
-                if self.selected_symbol3.is_selected():
-                    if not self.last_selected_symbol:
-                        self.last_selected_symbol = self.selected_symbol3
-
-                if self.number1.is_selected() and self.number1.number:
-                    self.select_number = self.number1
-                if self.number2.is_selected() and self.number2.number:
-                    self.select_number = self.number2
-                if self.number3.is_selected() and self.number3.number:
-                    self.select_number = self.number3
-                if self.number4.is_selected() and self.number4.number:
-                    self.select_number = self.number4
-
-                if self.selected_number1.is_selected() and self.selected_number1.number:
-                    self.selected_number = self.selected_number1
-                if self.selected_number2.is_selected() and self.selected_number2.number:
-                    self.selected_number = self.selected_number2
-                if self.selected_number3.is_selected() and self.selected_number3.number:
-                    self.selected_number = self.selected_number3
-                if self.selected_number4.is_selected() and self.selected_number4.number:
-                    self.selected_number = self.selected_number4
-
-                if self.select_symbol:
-                    symbol = self.select_symbol.symbol
-                    if self.selected_symbol1.is_selected():
-                        self.selected_symbol1.set_symbol(symbol)
-                        self.selected_symbol1.unselect()
-                        self.select_symbol = None
-                        self.last_selected_symbol = None
-                    if self.selected_symbol2.is_selected():
-                        self.selected_symbol2.set_symbol(symbol)
-                        self.selected_symbol2.unselect()
-                        self.select_symbol = None
-                        self.last_selected_symbol = None
-                    if self.selected_symbol3.is_selected():
-                        self.selected_symbol3.set_symbol(symbol)
-                        self.selected_symbol3.unselect()
-                        self.select_symbol = None
-                        self.last_selected_symbol = None
-
-                if self.last_selected_symbol:
-                    symbol = self.last_selected_symbol.symbol
-                    if self.selected_symbol1.is_selected() and symbol != self.selected_symbol1.symbol:
-                        self.last_selected_symbol.set_symbol(self.selected_symbol1.symbol)
-                        self.selected_symbol1.set_symbol(symbol)
-                        self.selected_symbol1.unselect()
-                        self.select_symbol = None
-                        self.last_selected_symbol = None
-                    if self.selected_symbol2.is_selected() and symbol != self.selected_symbol2.symbol:
-                        self.last_selected_symbol.set_symbol(self.selected_symbol2.symbol)
-                        self.selected_symbol2.set_symbol(symbol)
-                        self.selected_symbol2.unselect()
-                        self.select_symbol = None
-                        self.last_selected_symbol = None
-                    if self.selected_symbol3.is_selected() and symbol != self.selected_symbol3.symbol:
-                        self.last_selected_symbol.set_symbol(self.selected_symbol3.symbol)
-                        self.selected_symbol3.set_symbol(symbol)
-                        self.selected_symbol3.unselect()
-                        self.select_symbol = None
-                        self.last_selected_symbol = None
-
-                if self.select_number:
-                    number = self.select_number.number
-                    if self.selected_number1.is_selected():
-                        self.select_number.set_number(self.selected_number1.number)
-                        self.selected_number1.set_number(number)
-                        self.selected_number1.unselect()
-                        self.select_number = None
-                        self.selected_number = None
-                    if self.selected_number2.is_selected():
-                        self.select_number.set_number(self.selected_number2.number)
-                        self.selected_number2.set_number(number)
-                        self.selected_number2.unselect()
-                        self.select_number = None
-                        self.selected_number = None
-                    if self.selected_number3.is_selected():
-                        self.select_number.set_number(self.selected_number3.number)
-                        self.selected_number3.set_number(number)
-                        self.selected_number3.unselect()
-                        self.select_number = None
-                        self.selected_number = None
-                    if self.selected_number4.is_selected():
-                        self.select_number.set_number(self.selected_number4.number)
-                        self.selected_number4.set_number(number)
-                        self.selected_number4.unselect()
-                        self.select_number = None
-                        self.selected_number = None
-
-                if self.selected_number:
-                    number = self.selected_number.number
-                    if self.number1.is_selected():
-                        self.selected_number.set_number(self.number1.number)
-                        self.number1.set_number(number)
-                        self.number1.unselect()
-                        self.select_number = None
-                        self.selected_number = None
-                    if self.number2.is_selected():
-                        self.selected_number.set_number(self.number2.number)
-                        self.number2.set_number(number)
-                        self.number2.unselect()
-                        self.select_number = None
-                        self.selected_number = None
-                    if self.number3.is_selected():
-                        self.selected_number.set_number(self.number3.number)
-                        self.number3.set_number(number)
-                        self.number3.unselect()
-                        self.select_number = None
-                        self.selected_number = None
-                    if self.number4.is_selected():
-                        self.selected_number.set_number(self.number4.number)
-                        self.number4.set_number(number)
-                        self.number4.unselect()
-                        self.select_number = None
-                        self.selected_number = None
+                self._try_button_action()
+                self._try_symbol_exchange()
+                self._try_number_exchange()
 
     def _gen_numbers(self):
         answers = []
@@ -326,10 +293,10 @@ class Points:
         self.finish_button.blitme()
         self.grading.blitme()
         self.timer.blitme()
+
         pg.display.flip()
 
     def play(self):
         while True:
             self._check_event()
             self._update_screen()
-

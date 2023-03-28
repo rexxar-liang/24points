@@ -18,6 +18,8 @@ class Number:
         self.pos = self.settings.number_pos
         self.number = number
         self.image = None
+        self.type = "SELECT_NUMBER"
+        self.index = index
 
         self.image = pg.image.load("images/numbers/" + str(number) + ".jpeg")
         self.bg_rect = pg.Rect(self.pos[index - 1][0],
