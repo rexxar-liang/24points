@@ -2,27 +2,8 @@ import pygame_menu as game_menu
 
 from point.config.setting import Settings
 
-ABOUT = [f'Author: {"Liang Chen Yu"}',
-         f'Email: {"lb2261981@mail.163.com"}']
 RANKING_FIELDS = {"name": "Name", "score": "Score", "date": "Time"}
 RANKING_LIST_MIN_ROW = 6
-
-
-def about_menu():
-    menu = game_menu.Menu(
-        center_content=False,
-        height=300,
-        mouse_visible=True,
-        theme=game_menu.themes.THEME_BLUE,
-        title='About',
-        width=600
-    )
-    for m in ABOUT:
-        menu.add.label(m, margin=(0, 0))
-    menu.add.url(href="https://github.com/rexxar-liang/24points", title="help")
-    menu.add.label('')
-    menu.add.button('Return to Menu', game_menu.events.BACK)
-    return menu
 
 
 class GameMenu:
@@ -31,6 +12,36 @@ class GameMenu:
         self.game = game
         self.settings = Settings()
         self.font_file = self.settings.font_file
+
+    def about_menu(self):
+        menu = game_menu.Menu(
+            center_content=False,
+            height=300,
+            mouse_visible=True,
+            theme=game_menu.themes.THEME_BLUE,
+            title='About',
+            width=600,
+            rows=6,
+            columns=2
+        )
+
+        menu.add.label("  Author:", font_name=self.font_file)
+        menu.add.label("", font_name=self.font_file)
+        menu.add.label("  Artist:", font_name=self.font_file)
+        menu.add.label("  Code:  ", font_name=self.font_file)
+        menu.add.label("", font_name=self.font_file)
+        menu.add.label("")
+        menu.add.url(href="https://github.com/rexxar-liang", align=game_menu.locals.ALIGN_LEFT, title="Rexxar Liang",
+                     font_name=self.font_file)
+        menu.add.url(href="https://github.com/Anduin-Liang", align=game_menu.locals.ALIGN_LEFT, title="Anduin Liang",
+                     font_name=self.font_file)
+        menu.add.label(title="m_marguerite", align=game_menu.locals.ALIGN_LEFT, font_name=self.font_file)
+        menu.add.url(href="https://github.com/rexxar-liang/24points", align=game_menu.locals.ALIGN_LEFT,
+                     title="rexxar-liang/24points",
+                     font_name=self.font_file)
+        menu.add.label("", font_name=self.font_file)
+        menu.add.button('Return to Menu', game_menu.events.BACK, align=game_menu.locals.ALIGN_LEFT)
+        return menu
 
     def ranking_menu(self):
         ranking_theme = game_menu.themes.THEME_BLUE.copy()
@@ -82,6 +93,6 @@ class GameMenu:
 
         menu.add.button('Play', self.game.play)
         menu.add.button('Ranking', self.ranking_menu())
-        menu.add.button("About", about_menu())
+        menu.add.button("About", self.about_menu())
         menu.add.button('Quit', game_menu.events.EXIT)
         menu.mainloop(self.game.screen)
