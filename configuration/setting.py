@@ -64,4 +64,7 @@ class Settings:
 
         self.EVENT_TIMING = pygame.USEREVENT + 1
 
-        self.font_file = "./font/SimSun.ttf"
+        self.font_file = "./res/font/SimSun.ttf"
+        self.number_path = "./res/images/numbers/"
+        self.symbol_path = "./res/images/symbols/"
+        self.sound_path = "./res/sound/"

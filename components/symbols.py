@@ -1,7 +1,7 @@
 
 import pygame as pg
 
-from point.config.setting import Settings
+from configuration.setting import Settings
 
 
 class Symbol:
@@ -17,8 +17,9 @@ class Symbol:
         self.pos = self.settings.symbol_pos
         self.selected_border = self.settings.selected_border
         self.symbol = self.settings.symbol[index - 1]
+        self.symbol_path = self.settings.symbol_path
 
-        self.image = pg.image.load("images/symbols/" + self.symbol + ".png")
+        self.image = pg.image.load(self.symbol_path + self.symbol + ".png")
         self.bg_rect = pg.Rect(self.pos[index - 1][0],
                                self.pos[index - 1][1],
                                self.width + self.selected_border * 2,

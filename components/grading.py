@@ -1,15 +1,15 @@
 import pygame as pg
 
-from point.config.setting import Settings
-from point.caculator import checker
+from configuration.setting import Settings
+from caculator import checker
 
 
 # 播放音乐，如果成功，播放正确音乐，否则播放错误音乐
 def _play_music(correct):
     if correct:
-        pg.mixer.music.load("sound/correct.wav")
+        pg.mixer.music.load("res/sound/correct.wav")
     else:
-        pg.mixer.music.load("sound/fault.wav")
+        pg.mixer.music.load("res/sound/fault.wav")
 
     pg.mixer.music.play()
 

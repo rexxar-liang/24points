@@ -1,24 +1,28 @@
 
 import pygame as pg
 
-from point.config.setting import Settings
+from configuration.setting import Settings
 
 
-class SelectedSymbol:
+class Number:
 
-    def __init__(self, game, index):
+    def __init__(self, game, index, number):
         self.screen = game.screen
         self.screen_rect = game.screen.get_rect()
         self.settings = Settings()
         self.selected = False
-        self.bg_color = self.settings.symbol_bg_color
-        self.width = self.settings.symbol_width
-        self.height = self.settings.symbol_height
+        self.bg_color = self.settings.number_bg_color
+        self.width = self.settings.number_width
+        self.height = self.settings.number_height
         self.selected_border = self.settings.selected_border
-        self.pos = self.settings.selected_symbol_pos
-        self.symbol = None
+        self.pos = self.settings.number_pos
+        self.number = number
         self.image = None
+        self.type = "SELECT_NUMBER"
+        self.index = index
+        self.number_path = self.settings.number_path
 
+        self.image = pg.image.load(self.number_path + str(number) + ".jpeg")
         self.bg_rect = pg.Rect(self.pos[index - 1][0],
                                self.pos[index - 1][1],
                                self.width + self.selected_border * 2,
@@ -27,6 +31,8 @@ class SelectedSymbol:
                                   self.pos[index - 1][1] + self.selected_border,
                                   self.width,
                                   self.height)
+
+        self.image = pg.transform.scale(self.image, (self.width, self.height))
 
     def blitme(self):
         pg.draw.rect(self.screen, self.bg_color, self.bg_rect)
@@ -47,21 +53,21 @@ class SelectedSymbol:
 
     def _select(self):
         self.selected = True
-        if self.symbol:
+        if self.number:
             self.bg_color = self.settings.selected_color
 
     def unselect(self):
         self.selected = False
-        self.bg_color = self.settings.symbol_bg_color
+        self.bg_color = self.settings.number_bg_color
 
-    def cancel_select(self):
-        self.selected = False
-        self.bg_color = self.settings.symbol_bg_color
-
-    def set_symbol(self, symbol):
-        self.symbol = symbol
-        if symbol:
-            self.image = pg.image.load("images/symbols/" + symbol + ".png")
+    def set_number(self, number):
+        self.number = number
+        if number:
+            self.image = pg.image.load(self.number_path + str(number) + ".jpeg")
             self.image = pg.transform.scale(self.image, (self.width, self.height))
         else:
             self.image = None
+
+    def unset_number(self):
+        self.number = None
+        self.image = None

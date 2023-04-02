@@ -1,6 +1,6 @@
 import pygame_menu as game_menu
 
-from point.config.setting import Settings
+from configuration.setting import Settings
 
 RANKING_FIELDS = {"name": "Name", "score": "Score", "date": "Time"}
 RANKING_LIST_MIN_ROW = 6
@@ -21,13 +21,12 @@ class GameMenu:
             theme=game_menu.themes.THEME_BLUE,
             title='About',
             width=600,
-            rows=6,
+            rows=5,
             columns=2
         )
 
         menu.add.label("  Author:", font_name=self.font_file)
         menu.add.label("", font_name=self.font_file)
-        menu.add.label("  Artist:", font_name=self.font_file)
         menu.add.label("  Code:  ", font_name=self.font_file)
         menu.add.label("", font_name=self.font_file)
         menu.add.label("")
@@ -35,7 +34,6 @@ class GameMenu:
                      font_name=self.font_file)
         menu.add.url(href="https://github.com/Anduin-Liang", align=game_menu.locals.ALIGN_LEFT, title="Anduin Liang",
                      font_name=self.font_file)
-        menu.add.label(title="m_marguerite", align=game_menu.locals.ALIGN_LEFT, font_name=self.font_file)
         menu.add.url(href="https://github.com/rexxar-liang/24points", align=game_menu.locals.ALIGN_LEFT,
                      title="rexxar-liang/24points",
                      font_name=self.font_file)

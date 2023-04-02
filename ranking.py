@@ -5,7 +5,7 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import simpledialog
 
-from point.config.setting import Settings
+from configuration.setting import Settings
 
 
 class Ranking:

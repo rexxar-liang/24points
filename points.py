@@ -2,7 +2,7 @@ import sys
 import pygame as pg
 import random
 
-from config.setting import Settings
+from configuration.setting import Settings
 from components.symbols import Symbol
 from components.selected_symbol import SelectedSymbol
 from components.numbers import Number
@@ -20,16 +20,16 @@ class Points:
 
     def __init__(self):
         self.ranking = Ranking()
-
-        pg.init()
         self.settings = Settings()
         self.select_symbol = None
         self.last_selected_symbol = None
         self.current_selected_number = None
         self.last_selected_number = None
 
+        pg.init()
         self.screen = pg.display.set_mode((self.settings.screen_width, self.settings.screen_height))
-        pg.display.set_caption("24点")
+        pg.display.set_caption("24点小游戏")
+        pg.display.set_icon(pg.image.load('res/images/24points.png'))
 
         self.answer = Answer()
 

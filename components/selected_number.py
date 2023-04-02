@@ -1,12 +1,12 @@
 
 import pygame as pg
 
-from point.config.setting import Settings
+from configuration.setting import Settings
 
 
-class Number:
+class SelectedNumber:
 
-    def __init__(self, game, index, number):
+    def __init__(self, game, index):
         self.screen = game.screen
         self.screen_rect = game.screen.get_rect()
         self.settings = Settings()
@@ -15,13 +15,13 @@ class Number:
         self.width = self.settings.number_width
         self.height = self.settings.number_height
         self.selected_border = self.settings.selected_border
-        self.pos = self.settings.number_pos
-        self.number = number
+        self.pos = self.settings.selected_number_pos
+        self.number = None
         self.image = None
-        self.type = "SELECT_NUMBER"
+        self.type = "SELECTED_NUMBER"
         self.index = index
+        self.number_path = self.settings.number_path
 
-        self.image = pg.image.load("images/numbers/" + str(number) + ".jpeg")
         self.bg_rect = pg.Rect(self.pos[index - 1][0],
                                self.pos[index - 1][1],
                                self.width + self.selected_border * 2,
@@ -30,8 +30,6 @@ class Number:
                                   self.pos[index - 1][1] + self.selected_border,
                                   self.width,
                                   self.height)
-
-        self.image = pg.transform.scale(self.image, (self.width, self.height))
 
     def blitme(self):
         pg.draw.rect(self.screen, self.bg_color, self.bg_rect)
@@ -62,7 +60,7 @@ class Number:
     def set_number(self, number):
         self.number = number
         if number:
-            self.image = pg.image.load("images/numbers/" + str(number) + ".jpeg")
+            self.image = pg.image.load(self.number_path + str(number) + ".jpeg")
             self.image = pg.transform.scale(self.image, (self.width, self.height))
         else:
             self.image = None

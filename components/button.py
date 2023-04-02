@@ -1,7 +1,7 @@
 
 import pygame as pg
 
-from point.config.setting import Settings
+from configuration.setting import Settings
 
 
 class Button:

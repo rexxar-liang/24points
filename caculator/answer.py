@@ -1,6 +1,6 @@
 import random
 
-from point.caculator import checker
+from caculator import checker
 
 possible_brackets = [(None, None, None, None, None, None),
                      ('(', None, ')', None, None, None),
